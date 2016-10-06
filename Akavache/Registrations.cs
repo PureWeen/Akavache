@@ -21,6 +21,9 @@ namespace Akavache
 {
     public class Registrations : IWantsToRegisterStuff
     {
+
+        public static Action InitializeSqlLiteBatteries { get; set; }
+
         public void Register(IMutableDependencyResolver resolver)
         {
 #if SILVERLIGHT || XAMARIN_MOBILE
@@ -50,7 +53,7 @@ namespace Akavache
             resolver.Register(() => secure.Value, typeof(ISecureBlobCache), null);
 
             resolver.Register(() => new AkavacheHttpMixin(), typeof(IAkavacheHttpMixin), null);
-          
+
 #if APPKIT || UIKIT
             BlobCache.ApplicationName = NSBundle.MainBundle.BundleIdentifier;
             resolver.Register(() => new MacFilesystemProvider(), typeof(IFilesystemProvider), null);
@@ -62,6 +65,11 @@ namespace Akavache
 
             resolver.Register(() => new AndroidFilesystemProvider(), typeof(IFilesystemProvider), null);
 #endif
+
+            if (InitializeSqlLiteBatteries == null)
+                throw new ArgumentNullException("Please Initialize the SqlLite Batteries ny setting BlobCache.InitializeSqlLiteBatteries");
+
+            InitializeSqlLiteBatteries();
         }
     }
 }
