@@ -630,6 +630,11 @@ namespace Akavache.Tests
     {
         protected override IBlobCache CreateBlobCache(string path)
         {
+            Registrations.InitializeSqlLiteBatteries =
+                () =>
+            {
+                SQLitePCL.Batteries_V2.Init();
+            };
             BlobCache.ApplicationName = "TestRunner";
             return new BlockingDisposeObjectCache(new Sqlite3.SQLiteEncryptedBlobCache(Path.Combine(path, "sqlite.db")));
         }
@@ -639,6 +644,11 @@ namespace Akavache.Tests
     {
         protected override IBlobCache CreateBlobCache(string path)
         {
+            Registrations.InitializeSqlLiteBatteries =
+            () =>
+            {
+                SQLitePCL.Batteries_V2.Init();
+            };
             BlobCache.ApplicationName = "TestRunner";
             return new InMemoryBlobCache(RxApp.MainThreadScheduler);
         }

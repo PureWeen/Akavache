@@ -66,10 +66,10 @@ namespace Akavache
             resolver.Register(() => new AndroidFilesystemProvider(), typeof(IFilesystemProvider), null);
 #endif
 
-            if (InitializeSqlLiteBatteries == null)
-                throw new ArgumentNullException("Please Initialize the SqlLite Batteries ny setting BlobCache.InitializeSqlLiteBatteries");
+            if (InitializeSqlLiteBatteries != null)
+                InitializeSqlLiteBatteries();
 
-            InitializeSqlLiteBatteries();
+
         }
     }
 }
