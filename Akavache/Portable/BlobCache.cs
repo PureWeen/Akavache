@@ -30,6 +30,15 @@ namespace Akavache
             InMemory = new InMemoryBlobCache(Scheduler.Default);
         }
 
+
+        public static void Init(string applicationName, Action initializeSqlLiteBatteries)
+        {
+            if (initializeSqlLiteBatteries != null)
+                initializeSqlLiteBatteries();
+
+            ApplicationName = applicationName;
+        }
+
         /// <summary>
         /// Your application's name. Set this at startup, this defines where
         /// your data will be stored (usually at %AppData%\[ApplicationName])

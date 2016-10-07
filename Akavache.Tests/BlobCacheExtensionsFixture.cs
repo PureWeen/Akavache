@@ -580,14 +580,13 @@ namespace Akavache.Tests
     {
         protected override IBlobCache CreateBlobCache(string path)
         {
-            Registrations.InitializeSqlLiteBatteries =
-                  () =>
-                  {
-                      SQLitePCL.Batteries_V2.Init();
-                  };
 
-            BlobCache.ApplicationName = "TestRunner";
-           
+            BlobCache.Init("TestRunner",
+                   () =>
+                   {
+                       SQLitePCL.Batteries_V2.Init();
+                   });
+
 
             return new BlockingDisposeObjectCache(new SQLitePersistentBlobCache(Path.Combine(path, "sqlite.db")));
         }
@@ -630,12 +629,13 @@ namespace Akavache.Tests
     {
         protected override IBlobCache CreateBlobCache(string path)
         {
-            Registrations.InitializeSqlLiteBatteries =
-                () =>
-            {
-                SQLitePCL.Batteries_V2.Init();
-            };
-            BlobCache.ApplicationName = "TestRunner";
+
+            BlobCache.Init("TestRunner",
+                   () =>
+                   {
+                       SQLitePCL.Batteries_V2.Init();
+                   });
+
             return new BlockingDisposeObjectCache(new Sqlite3.SQLiteEncryptedBlobCache(Path.Combine(path, "sqlite.db")));
         }
     }
@@ -644,12 +644,12 @@ namespace Akavache.Tests
     {
         protected override IBlobCache CreateBlobCache(string path)
         {
-            Registrations.InitializeSqlLiteBatteries =
-            () =>
-            {
-                SQLitePCL.Batteries_V2.Init();
-            };
-            BlobCache.ApplicationName = "TestRunner";
+            BlobCache.Init("TestRunner", 
+                    () =>
+                    {
+                        SQLitePCL.Batteries_V2.Init();
+                    });
+            
             return new InMemoryBlobCache(RxApp.MainThreadScheduler);
         }
     }

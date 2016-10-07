@@ -22,8 +22,6 @@ namespace Akavache
     public class Registrations : IWantsToRegisterStuff
     {
 
-        public static Action InitializeSqlLiteBatteries { get; set; }
-
         public void Register(IMutableDependencyResolver resolver)
         {
 #if SILVERLIGHT || XAMARIN_MOBILE
@@ -65,10 +63,6 @@ namespace Akavache
 
             resolver.Register(() => new AndroidFilesystemProvider(), typeof(IFilesystemProvider), null);
 #endif
-
-            if (InitializeSqlLiteBatteries != null)
-                InitializeSqlLiteBatteries();
-
 
         }
     }
