@@ -167,6 +167,34 @@ namespace Akavache
             return ret.ToTask();
         }
 
+
+        /// <summary>
+        /// Returns a new ISecureBlobCache with every call. This is used to create a Secure Blob Cache
+        /// for you to use and manage from your own application
+        /// </summary>
+        public static ISecureBlobCache SecureCreateNew()
+        {
+            return Locator.Current.GetService<ISecureBlobCache>("Create");
+        }
+
+        /// <summary>
+        /// Returns a new IBlobCache with every call. This is used to create a Local Blob Cache
+        /// for you to use and manage from your own application
+        /// </summary>
+        public static IBlobCache LocalMachineCreateNew()
+        {
+            return Locator.Current.GetService<IBlobCache>("LocalMachineCreate");
+        }
+
+        /// <summary>
+        /// Returns a new IBlobCache with every call. This is used to create a User Blob Cache
+        /// for you to use and manage from your own application
+        /// </summary>
+        public static IBlobCache UserAccountCreateNew()
+        {
+            return Locator.Current.GetService<IBlobCache>("UserAccountCreate");
+        }
+
 #if PORTABLE
         static IScheduler TaskpoolOverride;
         public static IScheduler TaskpoolScheduler 

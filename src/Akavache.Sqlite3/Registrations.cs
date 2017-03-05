@@ -23,23 +23,30 @@ namespace Akavache.Sqlite3
                 throw new Exception("Failed to initialize Akavache properly. Do you have a reference to Akavache.dll?");
             }
 
-            var localCache = new Lazy<IBlobCache>(() =>{
+            Func<IBlobCache> localCacheFunc = () =>
+            {
                 fs.CreateRecursive(fs.GetDefaultLocalMachineCacheDirectory()).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
                 return new SQLitePersistentBlobCache(Path.Combine(fs.GetDefaultLocalMachineCacheDirectory(), "blobs.db"), BlobCache.TaskpoolScheduler);
-            });
-            resolver.Register(() => localCache.Value, typeof(IBlobCache), "LocalMachine");
+            };
 
-            var userAccount = new Lazy<IBlobCache>(() =>{
+
+            resolver.Register(localCacheFunc, typeof(IBlobCache), "LocalMachineCreate");
+
+            Func<IBlobCache> userAccountFunc = () =>
+            {
                 fs.CreateRecursive(fs.GetDefaultRoamingCacheDirectory()).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
                 return new SQLitePersistentBlobCache(Path.Combine(fs.GetDefaultRoamingCacheDirectory(), "userblobs.db"), BlobCache.TaskpoolScheduler);
-            });
-            resolver.Register(() => userAccount.Value, typeof(IBlobCache), "UserAccount");
-                
-            var secure = new Lazy<ISecureBlobCache>(() => {
+            };
+
+            resolver.Register(userAccountFunc, typeof(IBlobCache), "UserAccountCreate");
+
+            Func<ISecureBlobCache> secureFunc = () =>
+            {
                 fs.CreateRecursive(fs.GetDefaultSecretCacheDirectory()).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
                 return new SQLiteEncryptedBlobCache(Path.Combine(fs.GetDefaultSecretCacheDirectory(), "secret.db"), Locator.Current.GetService<IEncryptionProvider>(), BlobCache.TaskpoolScheduler);
-            });
-            resolver.Register(() => secure.Value, typeof(ISecureBlobCache), null);
+            };
+
+            resolver.Register(secureFunc, typeof(ISecureBlobCache), "Create");
         }
     }
 }

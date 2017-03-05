@@ -40,10 +40,13 @@ namespace Akavache
             var enc = new EncryptionProvider();
 #endif
             resolver.Register(() => enc, typeof(IEncryptionProvider), null);
+            resolver.Register(() => new InMemoryBlobCache(), typeof(IBlobCache), "LocalMachineCreate");
+            resolver.Register(() => new InMemoryBlobCache(), typeof(IBlobCache), "UserAccountCreate");
+            resolver.Register(() => new InMemoryBlobCache(), typeof(ISecureBlobCache), "Create");
 
-            var localCache = new Lazy<IBlobCache>(() => new InMemoryBlobCache());
-            var userAccount = new Lazy<IBlobCache>(() => new InMemoryBlobCache());
-            var secure = new Lazy<ISecureBlobCache>(() => new InMemoryBlobCache());
+            var localCache = new Lazy<IBlobCache>(() => resolver.GetService<IBlobCache>("LocalMachineCreate"));
+            var userAccount = new Lazy<IBlobCache>(() => resolver.GetService<IBlobCache>("UserAccountCreate"));
+            var secure = new Lazy<ISecureBlobCache>(() => resolver.GetService<ISecureBlobCache>("Create"));
 
             resolver.Register(() => localCache.Value, typeof(IBlobCache), "LocalMachine");
             resolver.Register(() => userAccount.Value, typeof(IBlobCache), "UserAccount");
