@@ -34,6 +34,12 @@ namespace Akavache
             var assmName = new AssemblyName(
                 fdr.AssemblyQualifiedName.Replace(fdr.FullName + ", ", ""));
 
+#if XAMARIN_MOBILE
+            var results = 
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(x => x.FullName.Contains("Akavache"))
+                    .ToList();
+#endif
             foreach (var ns in namespaces) 
             {
                 var targetType = ns + ".Registrations";
