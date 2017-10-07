@@ -9,7 +9,6 @@ namespace Akavache.UITests.iOS
         static void Main(string[] args)
         {
             Akavache.BlobCache.ApplicationName = "Testing";
-            typeof(SQLiteEncryptedBlobCache).ToString();
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");

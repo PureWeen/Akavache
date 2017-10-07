@@ -11,6 +11,7 @@ using Akavache;
 
 namespace Akavache.Sqlite3
 {
+   // [Preserve]
     public class Registrations : IWantsToRegisterStuff
     {
         public void Register(IMutableDependencyResolver resolver)

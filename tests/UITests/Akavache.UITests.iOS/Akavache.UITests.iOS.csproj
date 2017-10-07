@@ -25,7 +25,7 @@
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
     <IOSDebuggerPort>19235</IOSDebuggerPort>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <IntermediateOutputPath>obj\iPhoneSimulator\Debug</IntermediateOutputPath>

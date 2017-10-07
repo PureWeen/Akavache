@@ -9,6 +9,13 @@ using Splat;
 
 namespace Akavache.Sqlite3
 {
+    //public sealed class PreserveAttribute : System.Attribute
+    //{
+    //    public bool AllMembers;
+    //    public bool Conditional;
+    //}
+
+    //[Preserve]
     public class SQLiteEncryptedBlobCache : SQLitePersistentBlobCache, ISecureBlobCache
     {
         private readonly IEncryptionProvider encryption;
